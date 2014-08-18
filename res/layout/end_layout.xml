@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <TextView
+        android:id="@+id/kiss_result"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/kiss_report_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/kiss_result"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:text="Large Text"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/kiss_report_title"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:text="Medium Text"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <ImageView
+        android:id="@+id/kiss_girl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView3"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:src="@drawable/mm0"
+		/>
+
+    <TextView
+        android:id="@+id/kiss_report"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textView3"
+        android:layout_below="@+id/kiss_girl"
+        android:layout_marginTop="5dp"
+        android:gravity="center_horizontal"
+        android:text="Medium Text"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <Button
+        android:id="@+id/restartButton"
+        android:layout_width="150dip"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/kiss_report"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:text="restart" />
+
+    <Button
+        android:id="@+id/shareButton"
+        android:layout_width="150dip"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/restartButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:text="share" />
+
+</RelativeLayout>

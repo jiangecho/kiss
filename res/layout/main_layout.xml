@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#EC8B9C"
+    android:orientation="vertical" >
+    
+    <include 
+        android:visibility="invisible"
+        layout="@layout/start_layout"/>
+    <include 
+        android:visibility="invisible"
+        layout="@layout/kiss_layout"/>
+    <include 
+        layout="@layout/end_layout"/>
+
+</FrameLayout>
