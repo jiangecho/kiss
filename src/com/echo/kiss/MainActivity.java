@@ -5,7 +5,6 @@ import java.util.Random;
 
 import android.app.Activity;
 import android.graphics.drawable.Drawable;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -23,7 +22,6 @@ public class MainActivity extends Activity implements OnClickListener{
 	private TextView kissResultTextView, kissReportTitleTextView, kissReportTextView;
 	
 	private int score;
-	private int lastKissGirlIndex;
 	private Random random;
 	
 	private static final int[] GIRLS_DRAWABLE = {R.drawable.mm0,R.drawable.mm1,R.drawable.mm2,
@@ -109,6 +107,7 @@ public class MainActivity extends Activity implements OnClickListener{
 				@Override
 				public void run() {
 					imageView.setImageDrawable(null);
+					randomGirl(imageView);
 				}
 			}, 50);
 		}else if(imageView.getTag().equals(TAG_RUHUA)){
@@ -118,31 +117,36 @@ public class MainActivity extends Activity implements OnClickListener{
 				@Override
 				public void run() {
 					imageView.setImageDrawable(null);
+					gameOver(false);
 				}
 			}, 50);
 
 			//TODO Toast
-			gameOver(false);
 		}
 		
 	}
 	
 	private void randomGirls(){
+		for (ImageView imageView : imageViews) {
+			randomGirl(imageView);
+		}
+		
+	}
+	
+	private void randomGirl(ImageView imageView){
 		int tmp;
 		int girlIndex;
-		for (ImageView imageView : imageViews) {
-			tmp = random.nextInt(10);
-			girlIndex = random.nextInt(9);
-			if (tmp < 1) {
-				imageView.setBackgroundResource(RUHUA_DRAWABLE);
-				imageView.setTag(TAG_RUHUA);
-			}else if(tmp < 7){
-				imageView.setBackgroundResource(GIRLS_DRAWABLE[girlIndex]);
-				imageView.setTag(TAG_GIRL);
-			}else if(tmp < 9){
-				imageView.setBackgroundResource(BG_DRAWABLE);
-				imageView.setTag(TAG_BG);
-			}
+		tmp = random.nextInt(10);
+		girlIndex = random.nextInt(9);
+		if (tmp < 1) {
+			imageView.setBackgroundResource(RUHUA_DRAWABLE);
+			imageView.setTag(TAG_RUHUA);
+		}else if(tmp < 7){
+			imageView.setBackgroundResource(GIRLS_DRAWABLE[girlIndex]);
+			imageView.setTag(TAG_GIRL);
+		}else if(tmp < 9){
+			imageView.setBackgroundResource(BG_DRAWABLE);
+			imageView.setTag(TAG_BG);
 		}
 		
 	}

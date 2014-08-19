@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Kiss</string>
-    <string name="title_activity_main">MainActivity</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
+    <string name="app_name">美女啵一个</string>
     <string name="time_out_score_20">肥皂诚可贵，基友价更高！若为妹纸故，二者皆可抛~！这位壮士只亲到 %d 位妹纸，还需努力啊</string>
     <string name="time_out_score_40">眼前的妹纸是我的心头爱，想要亲她就要点的快~这位壮士本次亲到 %d 位妹纸，再来一次！可以亲更多的妹纸呢~</string>
     <string name="time_out_score_60">这位壮士眼疾手快亲到了 %d 位美女，完美闪避出现的宅男~不亏是真·汉纸·无双！</string>
@@ -28,8 +25,8 @@
     <string name="happy">恭喜，你将她领回家~</string>
     <string name="kiss_result">亲到 %d 个美女堪称:</string>
     
-    <string name="start">预备，上</string>
-    <string name="restart">再亲一把</string>
+    <string name="start">预备，啵</string>
+    <string name="restart">再啵一次</string>
     <string name="share">炫耀一把</string>
 
 </resources>
