@@ -30,7 +30,7 @@
         android:layout_below="@+id/kiss_report_title"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="5dp"
-        android:text="Medium Text"
+        android:text="@string/happy"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <ImageView
@@ -51,6 +51,9 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="5dp"
         android:text="Medium Text"
+        android:paddingLeft="20dip"
+        android:paddingRight="20dip"
+        android:gravity="center_horizontal"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <Button
@@ -61,7 +64,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="5dp"
         android:onClick="onRestartButtonClick"
-        android:text="restart" />
+        android:text="@string/restart" />
 
     <Button
         android:id="@+id/shareButton"
@@ -71,6 +74,6 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="5dp"
         android:onClick="onShareButtonClick"
-        android:text="share" />
+        android:text="@string/share" />
 
 </RelativeLayout>

@@ -4,6 +4,7 @@ package com.echo.kiss;
 import java.util.Random;
 
 import android.app.Activity;
+import android.graphics.drawable.Drawable;
 import android.nfc.Tag;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -40,6 +41,8 @@ public class MainActivity extends Activity implements OnClickListener{
 	
 	private CountDownTimer gameCountDownTimer;
 	private Handler handler;
+	
+	private Drawable lastDrawable;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +76,7 @@ public class MainActivity extends Activity implements OnClickListener{
 		
 		kissResultTextView = (TextView) findViewById(R.id.kiss_result);
 		kissReportTitleTextView = (TextView) findViewById(R.id.kiss_report_title);
-		kissResultTextView = (TextView) findViewById(R.id.kiss_report);
+		kissReportTextView = (TextView) findViewById(R.id.kiss_report);
 		
 
 		random = new Random();
@@ -93,8 +96,13 @@ public class MainActivity extends Activity implements OnClickListener{
 		}
 		
 		final ImageView imageView = (ImageView) v;
+		lastDrawable = imageView.getBackground();
 		if (imageView.getTag().equals(TAG_GIRL)) {
 			score ++;
+			//TODO update score
+			String value = getResources().getString(R.string.score, score);
+			scoreTextView.setText(value);
+
 			imageView.setImageResource(R.drawable.kiss2);
 			handler.postDelayed(new Runnable() {
 				
@@ -112,7 +120,9 @@ public class MainActivity extends Activity implements OnClickListener{
 					imageView.setImageDrawable(null);
 				}
 			}, 50);
-			gameOver();
+
+			//TODO Toast
+			gameOver(false);
 		}
 		
 	}
@@ -121,15 +131,15 @@ public class MainActivity extends Activity implements OnClickListener{
 		int tmp;
 		int girlIndex;
 		for (ImageView imageView : imageViews) {
-			tmp = random.nextInt(9);
+			tmp = random.nextInt(10);
 			girlIndex = random.nextInt(9);
-			if (tmp < 2) {
+			if (tmp < 1) {
 				imageView.setBackgroundResource(RUHUA_DRAWABLE);
 				imageView.setTag(TAG_RUHUA);
-			}else if(tmp < 5){
+			}else if(tmp < 7){
 				imageView.setBackgroundResource(GIRLS_DRAWABLE[girlIndex]);
 				imageView.setTag(TAG_GIRL);
-			}else if(tmp < 8){
+			}else if(tmp < 9){
 				imageView.setBackgroundResource(BG_DRAWABLE);
 				imageView.setTag(TAG_BG);
 			}
@@ -137,15 +147,72 @@ public class MainActivity extends Activity implements OnClickListener{
 		
 	}
 	
-	private void gameOver(){
+	private void gameOver(boolean isTimeOut){
 		kissLayout.setVisibility(View.INVISIBLE);
-		updateEndLayout();
+		updateEndLayout(isTimeOut);
 		endLayout.setVisibility(View.VISIBLE);
 		gameCountDownTimer.cancel();
 	}
 	
 	//TODO
-	private void updateEndLayout(){
+	private void updateEndLayout(boolean isTimeOut){
+		kissGirlImageView.setImageDrawable(lastDrawable);
+		
+		kissResultTextView.setText(getString(R.string.kiss_result, score));
+		
+		String value;
+		
+		if (score < 20) {
+			value = getString(R.string.rank_20);
+		}else if(score < 40){
+			value = getString(R.string.rank_40);
+		}else if(score < 60){
+			value = getString(R.string.rank_60);
+		}else if(score < 80){
+			value = getString(R.string.rank_80);
+		}else{
+			value = getString(R.string.rank_100);
+		}
+		
+		kissReportTitleTextView.setText(value);
+		
+		
+		if (score < 20) {
+			if (isTimeOut) {
+				value = getString(R.string.time_out_score_20, score);
+			}else {
+				value = getString(R.string.click_error_score_20);
+			}
+		}else if(score < 40){
+			if (isTimeOut) {
+				value = getString(R.string.time_out_score_40, score);
+			}else {
+				value = getString(R.string.click_error_score_40);
+			}
+			
+		}else if(score < 60){
+			if (isTimeOut) {
+				value = getString(R.string.time_out_score_60, score);
+			}else {
+				value = getString(R.string.click_error_score_60);
+			}
+			
+		}else if(score < 80){
+			if (isTimeOut) {
+				value = getString(R.string.time_out_score_80, score);
+			}else {
+				value = getString(R.string.click_error_score_80);
+			}
+			
+		}else{
+			if (isTimeOut) {
+				value = getString(R.string.time_out_score_100, score);
+			}else {
+				value = getString(R.string.click_error_score_100);
+			}
+		}
+		kissReportTextView.setText(value);
+		
 		
 	}
 	
@@ -158,7 +225,7 @@ public class MainActivity extends Activity implements OnClickListener{
 
 		@Override
 		public void onFinish() {
-			gameOver();
+			gameOver(true);
 		}
 
 		@Override
@@ -170,6 +237,7 @@ public class MainActivity extends Activity implements OnClickListener{
 	
 	public void onStartButtonClick(View view){
 		score = 0;
+		scoreTextView.setText(getString(R.string.score, 0));
 		startLayout.setVisibility(View.INVISIBLE);
 		kissLayout.setVisibility(View.VISIBLE);
 		timerTextView.setText("30");
@@ -179,6 +247,7 @@ public class MainActivity extends Activity implements OnClickListener{
 	
 	public void onRestartButtonClick(View view){
 		score = 0;
+		scoreTextView.setText(getString(R.string.score, 0));
 		endLayout.setVisibility(View.INVISIBLE);
 		kissLayout.setVisibility(View.VISIBLE);
 		timerTextView.setText("30");
