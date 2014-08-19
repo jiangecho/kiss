@@ -5,5 +5,23 @@
     <string name="title_activity_main">MainActivity</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="time_out_score_30">肥皂诚可贵，基友价更高！若为妹纸故，二者皆可抛~！这位壮士只亲到 %d 位妹纸，还需努力啊</string>
+    <string name="time_out_score_50">眼前的妹纸是我的心头爱，想要亲她就要点的快~这位壮士本次亲到 %d 位妹纸，再来一次！可以亲更多的妹纸呢~</string>
+    <string name="time_out_score_90">这位壮士眼疾手快亲到了 %d 位美女，完美闪避出现的宅男~不亏是真·汉纸·无双！</string>
+    <string name="time_out_score_70">这位壮士完美闪避如花，亲到 %d 个美女！你行？来试试？</string>
+    <string name="time_out_score_100">这位壮士真直男！爱美女！不畏基友和肥皂的诱惑，居然亲到了 %d 位妹纸！真是叹为观止~！</string>
+    
+    <string name="click_error_score_0">恭喜您亲到了女神如花，他已决定为你生儿育女，和美丽的妹子 say goodbye吧~</string>
+    <string name="click_error_score_20">人固有一死，或死于老眼昏花错点如花，或死于手速太快误点宅男！马上再来一次，不亲到妹纸不罢休~</string>
+    <string name="click_error_score_40">此人死于手太快，错把如花当美女~你来亲亲美女试试？</string>
+    <string name="click_error_score_60">恭喜您亲到了女神如花，他已决定为你生儿育女，和美丽的妹子 say goodbye吧~</string>
+    <string name="click_error_score_80">壮士断腕，你勇于牺牲自己拯救妹子的精神已感动如花，真英雄，不畏基！</string>
+    <string name="click_error_score_100">虽然你亲到了大波的美女，但还是没能逃过宅男【王大锤】的荼毒……菊花残，满地伤……你的影子已……</string>
+    
+    <string name="rank_30">色中菜鸟</string>
+    <string name="rank_50">色中好手</string>
+    <string name="rank_70">色中饿狼</string>
+    <string name="rank_90">色中领袖</string>
+    <string name="rank_100">色中翘楚</string>
 
 </resources>
