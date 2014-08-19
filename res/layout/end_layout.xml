@@ -46,10 +46,9 @@
         android:id="@+id/kiss_report"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView3"
         android:layout_below="@+id/kiss_girl"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="5dp"
-        android:gravity="center_horizontal"
         android:text="Medium Text"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
