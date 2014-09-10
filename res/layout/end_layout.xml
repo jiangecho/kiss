@@ -80,7 +80,6 @@
         android:layout_marginTop="5dp"
         android:onClick="onShareButtonClick"
         android:textColor="#FF525D"
-        android:visibility="gone"
         android:text="@string/share" />
 
 </RelativeLayout>

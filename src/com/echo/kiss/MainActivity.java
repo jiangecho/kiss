@@ -1,12 +1,19 @@
 package com.echo.kiss;
 
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.Random;
 
+import cn.sharesdk.framework.ShareSDK;
+import cn.sharesdk.onekeyshare.OnekeyShare;
 import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.Bitmap.CompressFormat;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Environment;
 import android.os.Handler;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -14,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends Activity implements OnClickListener{
 	private ImageView[] imageViews;
@@ -41,6 +49,7 @@ public class MainActivity extends Activity implements OnClickListener{
 	private Handler handler;
 	
 	private Drawable lastDrawable;
+	private static final String APP_URL = "http://1.littleappleapp.sinaapp.com/kiss.apk";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -259,9 +268,72 @@ public class MainActivity extends Activity implements OnClickListener{
 		randomGirls();
 		
 	}
+
+	public void onShareButtonClick(View view){
+		String imgPath = takeScreenShot(view);
+		if (imgPath == null) {
+			Toast.makeText(this, "SD卡不存在", Toast.LENGTH_SHORT).show();
+		}else {
+			showShare(imgPath);
+		}
+	}
 	
-	public void onShareButtonClcik(View view){
+
+	private String takeScreenShot(View view){
+		View rootView = view.getRootView();
+		rootView.setDrawingCacheEnabled(true);
+		rootView.buildDrawingCache(true);
+		Bitmap bitmap = rootView.getDrawingCache(true);
+		if (!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+			return null;
+		}
+		File  path = Environment.getExternalStorageDirectory();
+		File file = new File(path, "screenshot.png");
+
+		if (file.exists()) {
+			file.delete();
+		}
+		try {
+			FileOutputStream fileOutputStream = new FileOutputStream(file);
+			bitmap.compress(CompressFormat.PNG, 100, fileOutputStream);
+			fileOutputStream.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		rootView.destroyDrawingCache();
+		return file.getAbsolutePath();
 		
 	}
+	
+   private void showShare(String imgPath) {
+        ShareSDK.initSDK(this);
+        OnekeyShare oks = new OnekeyShare();
+        //关闭sso授权
+        oks.disableSSOWhenAuthorize();
+       
+        // 分享时Notification的图标和文字
+        oks.setNotification(R.drawable.ic_launcher, getString(R.string.app_name));
+        // title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间使用
+        oks.setTitle(getString(R.string.app_name));
+        // titleUrl是标题的网络链接，仅在人人网和QQ空间使用
+        oks.setTitleUrl(APP_URL);
+        // text是分享文本，所有平台都需要这个字段
+        oks.setText("哈哈，来啵吧！美女啵一个:" + APP_URL);
+        // imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
+        oks.setImagePath(imgPath);
+        // url仅在微信（包括好友和朋友圈）中使用
+        oks.setUrl(APP_URL);
+        // comment是我对这条分享的评论，仅在人人网和QQ空间使用
+        oks.setComment("呵呵，我啵了" + score + "个大美女！");
+        // site是分享此内容的网站名称，仅在QQ空间使用
+        oks.setSite(getString(R.string.app_name));
+        // siteUrl是分享此内容的网站地址，仅在QQ空间使用
+        oks.setSiteUrl(APP_URL);
+
+        // 启动分享GUI
+        oks.show(this);
+   }
 	
 }
