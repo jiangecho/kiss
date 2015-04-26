@@ -272,7 +272,7 @@ public class MainActivity extends Activity implements OnClickListener{
 	public void onShareButtonClick(View view){
 		String imgPath = takeScreenShot(view);
 		if (imgPath == null) {
-			Toast.makeText(this, "SD¿¨²»´æÔÚ", Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, "SDå¡ä¸å­˜åœ¨", Toast.LENGTH_SHORT).show();
 		}else {
 			showShare(imgPath);
 		}
@@ -310,29 +310,29 @@ public class MainActivity extends Activity implements OnClickListener{
    private void showShare(String imgPath) {
         ShareSDK.initSDK(this);
         OnekeyShare oks = new OnekeyShare();
-        //¹Ø±ÕssoÊÚÈ¨
+        //å…³é—­ssoæˆæƒ
         oks.disableSSOWhenAuthorize();
        
-        // ·ÖÏíÊ±NotificationµÄÍ¼±êºÍÎÄ×Ö
+        // åˆ†äº«æ—¶Notificationçš„å›¾æ ‡å’Œæ–‡å­—
         oks.setNotification(R.drawable.ic_launcher, getString(R.string.app_name));
-        // title±êÌâ£¬Ó¡Ïó±Ê¼Ç¡¢ÓÊÏä¡¢ĞÅÏ¢¡¢Î¢ĞÅ¡¢ÈËÈËÍøºÍQQ¿Õ¼äÊ¹ÓÃ
+        // titleæ ‡é¢˜ï¼Œå°è±¡ç¬”è®°ã€é‚®ç®±ã€ä¿¡æ¯ã€å¾®ä¿¡ã€äººäººç½‘å’ŒQQç©ºé—´ä½¿ç”¨
         oks.setTitle(getString(R.string.app_name));
-        // titleUrlÊÇ±êÌâµÄÍøÂçÁ´½Ó£¬½öÔÚÈËÈËÍøºÍQQ¿Õ¼äÊ¹ÓÃ
+        // titleUrlæ˜¯æ ‡é¢˜çš„ç½‘ç»œé“¾æ¥ï¼Œä»…åœ¨äººäººç½‘å’ŒQQç©ºé—´ä½¿ç”¨
         oks.setTitleUrl(APP_URL);
-        // textÊÇ·ÖÏíÎÄ±¾£¬ËùÓĞÆ½Ì¨¶¼ĞèÒªÕâ¸ö×Ö¶Î
-        oks.setText("¹ş¹ş£¬À´à£°É£¡ÃÀÅ®à£Ò»¸ö:" + APP_URL);
-        // imagePathÊÇÍ¼Æ¬µÄ±¾µØÂ·¾¶£¬Linked-InÒÔÍâµÄÆ½Ì¨¶¼Ö§³Ö´Ë²ÎÊı
+        // textæ˜¯åˆ†äº«æ–‡æœ¬ï¼Œæ‰€æœ‰å¹³å°éƒ½éœ€è¦è¿™ä¸ªå­—æ®µ
+        oks.setText("å“ˆå“ˆï¼Œæ¥å•µå§ï¼ç¾å¥³å•µä¸€ä¸ª:" + APP_URL);
+        // imagePathæ˜¯å›¾ç‰‡çš„æœ¬åœ°è·¯å¾„ï¼ŒLinked-Inä»¥å¤–çš„å¹³å°éƒ½æ”¯æŒæ­¤å‚æ•°
         oks.setImagePath(imgPath);
-        // url½öÔÚÎ¢ĞÅ£¨°üÀ¨ºÃÓÑºÍÅóÓÑÈ¦£©ÖĞÊ¹ÓÃ
+        // urlä»…åœ¨å¾®ä¿¡ï¼ˆåŒ…æ‹¬å¥½å‹å’Œæœ‹å‹åœˆï¼‰ä¸­ä½¿ç”¨
         oks.setUrl(APP_URL);
-        // commentÊÇÎÒ¶ÔÕâÌõ·ÖÏíµÄÆÀÂÛ£¬½öÔÚÈËÈËÍøºÍQQ¿Õ¼äÊ¹ÓÃ
-        oks.setComment("ºÇºÇ£¬ÎÒà£ÁË" + score + "¸ö´óÃÀÅ®£¡");
-        // siteÊÇ·ÖÏí´ËÄÚÈİµÄÍøÕ¾Ãû³Æ£¬½öÔÚQQ¿Õ¼äÊ¹ÓÃ
+        // commentæ˜¯æˆ‘å¯¹è¿™æ¡åˆ†äº«çš„è¯„è®ºï¼Œä»…åœ¨äººäººç½‘å’ŒQQç©ºé—´ä½¿ç”¨
+        oks.setComment("å‘µå‘µï¼Œæˆ‘å•µäº†" + score + "ä¸ªå¤§ç¾å¥³ï¼");
+        // siteæ˜¯åˆ†äº«æ­¤å†…å®¹çš„ç½‘ç«™åç§°ï¼Œä»…åœ¨QQç©ºé—´ä½¿ç”¨
         oks.setSite(getString(R.string.app_name));
-        // siteUrlÊÇ·ÖÏí´ËÄÚÈİµÄÍøÕ¾µØÖ·£¬½öÔÚQQ¿Õ¼äÊ¹ÓÃ
+        // siteUrlæ˜¯åˆ†äº«æ­¤å†…å®¹çš„ç½‘ç«™åœ°å€ï¼Œä»…åœ¨QQç©ºé—´ä½¿ç”¨
         oks.setSiteUrl(APP_URL);
 
-        // Æô¶¯·ÖÏíGUI
+        // å¯åŠ¨åˆ†äº«GUI
         oks.show(this);
    }
 	
