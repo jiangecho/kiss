@@ -16,6 +16,7 @@
 	<uses-permission android:name="android.permission.READ_PHONE_STATE" />
 	<uses-permission android:name="android.permission.MANAGE_ACCOUNTS"/>
 	<uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
     <application
         android:allowBackup="true"
@@ -46,11 +47,13 @@
 			    </intent-filter>
 		</activity>
 		<activity
-			  android:name=".wxapi.WXEntryActivity"
+			  android:name="com.echo.littleapple.wxapi.WXEntryActivity"
 			  android:theme="@android:style/Theme.Translucent.NoTitleBar"
 			  android:configChanges="keyboardHidden|orientation|screenSize"
 			  android:exported="true"
 			  android:screenOrientation="portrait" />
+		<meta-data android:value="553d06b367e58ee624000a0f" android:name="UMENG_APPKEY"></meta-data>
+		<meta-data android:value="Channel ID" android:name="UMENG_CHANNEL"/>
     </application>
 
 </manifest>

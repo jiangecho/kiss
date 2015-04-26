@@ -22,6 +22,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.umeng.analytics.MobclickAgent;
 
 public class MainActivity extends Activity implements OnClickListener{
 	private ImageView[] imageViews;
@@ -89,6 +90,19 @@ public class MainActivity extends Activity implements OnClickListener{
 		random = new Random();
 		gameCountDownTimer = new GameCountDownTimer(30 * 1000, 1000);
 		handler = new Handler();
+		MobclickAgent.updateOnlineConfig(this);
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		MobclickAgent.onResume(this);
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		MobclickAgent.onPause(this);
 	}
 
 	@Override
