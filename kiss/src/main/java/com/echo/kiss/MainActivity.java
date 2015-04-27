@@ -7,8 +7,10 @@ import java.util.Random;
 
 import android.content.Context;
 import android.os.*;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.ViewGroup;
+import android.widget.*;
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.onekeyshare.OnekeyShare;
 import android.app.Activity;
@@ -17,17 +19,8 @@ import android.graphics.Bitmap.CompressFormat;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 import com.umeng.analytics.MobclickAgent;
-import com.umeng.analytics.MobclickAgentJSInterface;
-import com.umeng.analytics.onlineconfig.UmengOnlineConfigureListener;
 import com.wandoujia.ads.sdk.Ads;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 public class MainActivity extends Activity implements OnClickListener {
     private ImageView[] imageViews;
@@ -58,6 +51,7 @@ public class MainActivity extends Activity implements OnClickListener {
     private static final String APP_URL = "http://1.littleappleapp.sinaapp.com/kiss.apk";
 
     private AdOnLineConfig adOnLineConfig;
+    private LinearLayout container;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +86,7 @@ public class MainActivity extends Activity implements OnClickListener {
         kissResultTextView = (TextView) findViewById(R.id.kiss_result);
         kissReportTitleTextView = (TextView) findViewById(R.id.kiss_report_title);
         kissReportTextView = (TextView) findViewById(R.id.kiss_report);
+        container = (LinearLayout) findViewById(R.id.banner_container);
 
 
         random = new Random();
@@ -141,7 +136,6 @@ public class MainActivity extends Activity implements OnClickListener {
 
             @Override
             protected void onPostExecute(Boolean success) {
-                final ViewGroup container = (ViewGroup) findViewById(R.id.banner_container);
 
                 if (success) {
                     /**
@@ -157,6 +151,7 @@ public class MainActivity extends Activity implements OnClickListener {
                                 ViewGroup.LayoutParams.MATCH_PARENT,
                                 ViewGroup.LayoutParams.WRAP_CONTENT
                         ));
+
                     }
 
                     if (adOnLineConfig != null && adOnLineConfig.showAd()){
@@ -266,6 +261,14 @@ public class MainActivity extends Activity implements OnClickListener {
 
         if (adOnLineConfig != null && adOnLineConfig.showAd()){
             Ads.showInterstitial(this, adOnLineConfig.getAdTag());
+        }
+
+        if (adOnLineConfig != null && adOnLineConfig.showBannerAd() && adOnLineConfig.autoBannerAd()){
+            if (random.nextInt(adOnLineConfig.getAutoBannerAdFreq()) == 1){
+                Button bannerAdButton = (Button) container.findViewById(R.id.wdj_ad_install);
+
+                bannerAdButton.performClick();
+            }
         }
     }
 
@@ -448,8 +451,12 @@ public class MainActivity extends Activity implements OnClickListener {
         private String bannerAdTag;
         private String appWallTag;
 
+        private String autoBannerAd;
+        private String autoBannerAdFreq;
+
         public AdOnLineConfig(String appId, String secretKey, String showAd, String showBannerAd,
-                              String showAppWall, String adTag, String bannerAdTag, String appWallTag) {
+                              String showAppWall, String adTag, String bannerAdTag, String appWallTag,
+                              String autoBannerAd, String autoBannerAdFreq) {
             this.appId = appId;
             this.secretKey = secretKey;
             this.showAd = showAd;
@@ -458,6 +465,9 @@ public class MainActivity extends Activity implements OnClickListener {
             this.adTag = adTag;
             this.bannerAdTag = bannerAdTag;
             this.appWallTag = appWallTag;
+            this.autoBannerAd = autoBannerAd;
+            this.autoBannerAdFreq = autoBannerAdFreq;
+
         }
 
         public static AdOnLineConfig getOnLineConfig(Context context) {
@@ -469,7 +479,14 @@ public class MainActivity extends Activity implements OnClickListener {
             String adTag = MobclickAgent.getConfigParams(context, "adTag");
             String bannerAdTag = MobclickAgent.getConfigParams(context, "bannerAdTag");
             String appWallTag = MobclickAgent.getConfigParams(context, "appWallTag");
-            return new AdOnLineConfig(appId, secretKey, showAd, showBannerAd, showAppWall, adTag, bannerAdTag, appWallTag);
+            String autoBannerAd = MobclickAgent.getConfigParams(context, "autoBannerAd");
+            String autoBannerAdFreq = MobclickAgent.getConfigParams(context, "autoBannerAdFreq");
+            if (TextUtils.isEmpty(autoBannerAdFreq)){
+                autoBannerAdFreq = "10";
+            }
+
+            return new AdOnLineConfig(appId, secretKey, showAd, showBannerAd, showAppWall,
+                    adTag, bannerAdTag, appWallTag, autoBannerAd, autoBannerAdFreq);
         }
 
         public boolean showAd(){
@@ -491,6 +508,22 @@ public class MainActivity extends Activity implements OnClickListener {
                 return true;
             }
             return false;
+        }
+
+        public boolean autoBannerAd(){
+            if (autoBannerAd != null && autoBannerAd.equals("true")){
+                return true;
+            }
+            return false;
+
+            // TODO refactor to the following
+//            if ("true".equals(autoBannerAd)){
+//                return true;
+//            }
+        }
+
+        public int getAutoBannerAdFreq(){
+            return Integer.valueOf(autoBannerAdFreq);
         }
 
         public String getAppId() {
