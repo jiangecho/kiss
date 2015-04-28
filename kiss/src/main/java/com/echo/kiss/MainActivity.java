@@ -19,6 +19,8 @@ import android.graphics.Bitmap.CompressFormat;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.View.OnClickListener;
+import com.echo.ad.AdOnLineConfig;
+import com.echo.ad.WandoujiaAd;
 import com.umeng.analytics.MobclickAgent;
 import com.wandoujia.ads.sdk.Ads;
 
@@ -114,63 +116,10 @@ public class MainActivity extends Activity implements OnClickListener {
 //                }
 //            }
 //        });
-        initAd();
+        container = (LinearLayout) findViewById(R.id.banner_container);
+        WandoujiaAd.initAd(this, container, AdOnLineConfig.getOnLineConfig(this));
     }
 
-
-    private void initAd() {
-        new AsyncTask<Void, Void, Boolean>() {
-            @Override
-            protected Boolean doInBackground(Void... params) {
-                try {
-                    adOnLineConfig = AdOnLineConfig.getOnLineConfig(MainActivity.this);
-                    if (adOnLineConfig != null && (adOnLineConfig.showAd() || adOnLineConfig.showAppWallAd() || adOnLineConfig.showBannerAd())){
-                        Ads.init(MainActivity.this, adOnLineConfig.getAppId(), adOnLineConfig.getSecretKey());
-                    }
-                    return true;
-                } catch (Exception e) {
-                    Log.e("ads-sample", "error", e);
-                    return false;
-                }
-            }
-
-            @Override
-            protected void onPostExecute(Boolean success) {
-
-                if (success) {
-                    /**
-                     * pre load
-                     */
-                    if (adOnLineConfig != null && adOnLineConfig.showBannerAd()){
-                        Ads.preLoad(adOnLineConfig.getBannerAdTag(), Ads.AdFormat.banner);
-                        /**
-                         * add ad views
-                         */
-                        View bannerView = Ads.createBannerView(MainActivity.this, adOnLineConfig.getBannerAdTag());
-                        container.addView(bannerView, new ViewGroup.LayoutParams(
-                                ViewGroup.LayoutParams.MATCH_PARENT,
-                                ViewGroup.LayoutParams.WRAP_CONTENT
-                        ));
-
-                    }
-
-                    if (adOnLineConfig != null && adOnLineConfig.showAd()){
-                        Ads.preLoad(adOnLineConfig.getAdTag(), Ads.AdFormat.interstitial);
-                    }
-
-                    if (adOnLineConfig != null && adOnLineConfig.showAppWallAd()){
-                        Ads.preLoad(adOnLineConfig.getAppWallTag(), Ads.AdFormat.appwall);
-                    }
-
-
-                } else {
-                    // init ad failed
-                }
-            }
-        }.execute();
-
-
-    }
 
     @Override
     protected void onResume() {
@@ -439,112 +388,6 @@ public class MainActivity extends Activity implements OnClickListener {
 
         // 启动分享GUI
         oks.show(this);
-    }
-
-    private static class AdOnLineConfig {
-        private String appId;
-        private String secretKey;
-        private String showAd;
-        private String showBannerAd;
-        private String showAppWall;
-        private String adTag; // 插屏
-        private String bannerAdTag;
-        private String appWallTag;
-
-        private String autoBannerAd;
-        private String autoBannerAdFreq;
-
-        public AdOnLineConfig(String appId, String secretKey, String showAd, String showBannerAd,
-                              String showAppWall, String adTag, String bannerAdTag, String appWallTag,
-                              String autoBannerAd, String autoBannerAdFreq) {
-            this.appId = appId;
-            this.secretKey = secretKey;
-            this.showAd = showAd;
-            this.showBannerAd = showBannerAd;
-            this.showAppWall = showAppWall;
-            this.adTag = adTag;
-            this.bannerAdTag = bannerAdTag;
-            this.appWallTag = appWallTag;
-            this.autoBannerAd = autoBannerAd;
-            this.autoBannerAdFreq = autoBannerAdFreq;
-
-        }
-
-        public static AdOnLineConfig getOnLineConfig(Context context) {
-            String appId = MobclickAgent.getConfigParams(context, "appId");
-            String secretKey = MobclickAgent.getConfigParams(context, "secretKey");
-            String showAd = MobclickAgent.getConfigParams(context, "showAd");
-            String showBannerAd = MobclickAgent.getConfigParams(context, "showBannerAd");
-            String showAppWall = MobclickAgent.getConfigParams(context, "showAppWall");
-            String adTag = MobclickAgent.getConfigParams(context, "adTag");
-            String bannerAdTag = MobclickAgent.getConfigParams(context, "bannerAdTag");
-            String appWallTag = MobclickAgent.getConfigParams(context, "appWallTag");
-            String autoBannerAd = MobclickAgent.getConfigParams(context, "autoBannerAd");
-            String autoBannerAdFreq = MobclickAgent.getConfigParams(context, "autoBannerAdFreq");
-            if (TextUtils.isEmpty(autoBannerAdFreq)){
-                autoBannerAdFreq = "10";
-            }
-
-            return new AdOnLineConfig(appId, secretKey, showAd, showBannerAd, showAppWall,
-                    adTag, bannerAdTag, appWallTag, autoBannerAd, autoBannerAdFreq);
-        }
-
-        public boolean showAd(){
-            if (showAd != null && showAd.equals("true")){
-                return true;
-            }
-            return false;
-        }
-
-        public boolean showBannerAd(){
-            if (showBannerAd != null && showBannerAd.equals("true")){
-                return true;
-            }
-            return false;
-        }
-
-        public boolean showAppWallAd(){
-            if (showAppWall != null && showAppWall.equals("true")){
-                return true;
-            }
-            return false;
-        }
-
-        public boolean autoBannerAd(){
-            if (autoBannerAd != null && autoBannerAd.equals("true")){
-                return true;
-            }
-            return false;
-
-            // TODO refactor to the following
-//            if ("true".equals(autoBannerAd)){
-//                return true;
-//            }
-        }
-
-        public int getAutoBannerAdFreq(){
-            return Integer.valueOf(autoBannerAdFreq);
-        }
-
-        public String getAppId() {
-            return appId;
-        }
-
-        public String getSecretKey() {
-            return secretKey;
-        }
-
-        public String getAdTag() {
-            return adTag;
-        }
-
-        public String getBannerAdTag() {
-            return bannerAdTag;
-        }
-
-        public String getAppWallTag() {
-            return appWallTag;
-        }
     }
 
 }
